@@ -223,3 +223,7 @@ To complete this experiment we had @spackbot-test pass both of the new merge_gro
     - received the expected github events associated with merging a PR (mentioned above)
 
 One thing to note is that after this experiment, the branches associated with PRs that had to be re-added to the queue when something ahead of them failed seem to just be orphaned.  They're still sitting on github right now.
+
+## Testing with "squash and merge" approach
+
+Repeating some of the experiments above, but now with a different merge strategy.
