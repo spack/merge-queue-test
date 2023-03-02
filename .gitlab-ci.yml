@@ -1,0 +1,40 @@
+.pr-refs:
+  only:
+  - /^pr[\d]+_.*$/
+  variables:
+    TRAVERSE_DEPTH: 0
+
+.merge-queue-refs:
+  only:
+  - /^gh-readonly-queue/[^/]+/pr12 /
+  variables:
+    TRAVERSE_DEPTH: 1
+
+.protected-refs:
+  only:
+  - /^main$/
+  variables:
+    TRAVERSE_DEPTH: -1
+
+.common-defs:
+  script:
+    - uname -a || true
+    - grep -E 'vendor|model name' /proc/cpuinfo 2>/dev/null | sort -u || head -n10 /proc/cpuinfo 2>/dev/null || true
+    - nproc || true
+    - 'echo "Building version: ${BUILDING_VERSION}"'
+    - 'echo "Traverse depth: ${TRAVERSE_DEPTH}"'
+    - sleep 300
+    - echo "Goodbye"
+  tags: [ "aws", "public", "x86_64_v2" ]
+  image: { "name": "ghcr.io/scottwittenburg/python-aws-bash:0.0.3", "entrypoint": [""] }
+  variables:
+    BUILDING_VERSION: "${CI_COMMIT_REF_NAME} / ${CI_COMMIT_SHA}"
+
+pr-job:
+  extends: [ ".pr-refs", ".common-defs" ]
+
+merge_queue-job:
+  extends: [ ".merge-queue-refs", ".common-defs" ]
+
+protected-job:
+  extends: [ ".protected-refs", ".common-defs" ]
