@@ -23,7 +23,6 @@
     - nproc || true
     - 'echo "Building version: ${BUILDING_VERSION}"'
     - 'echo "Traverse depth: ${TRAVERSE_DEPTH}"'
-    - sleep 300
     - echo "Goodbye"
   tags: [ "aws", "public", "x86_64_v2" ]
   image: { "name": "ghcr.io/scottwittenburg/python-aws-bash:0.0.3", "entrypoint": [""] }
